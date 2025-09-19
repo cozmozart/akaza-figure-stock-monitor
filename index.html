@@ -19,136 +19,122 @@
             <div class="header-content">
                 <div class="logo">
                     <div class="logo-icon">⚡</div>
-                    <h1 class="logo-text">AKAZA MONITOR</h1>
-                </div>
-                <div class="status-badge" id="globalStatus">
-                    <div class="status-dot" id="globalStatusDot"></div>
-                    <span id="globalStatusText">INITIALIZING</span>
+                    <h1 class="logo-text">AKAZA</h1>
                 </div>
             </div>
         </header>
 
         <main class="main-content">
-            <!-- Product Card -->
-            <div class="card product-card">
-                <div class="card-header">
-                    <div class="product-title">
-                        <h2>Akaza - Demon Slayer: Kimetsu no Yaiba [BUZZmod.]</h2>
-                        <div class="product-badge">PREMIUM</div>
-                    </div>
-                </div>
-                
+            <!-- Product & Status Card -->
+            <div class="card product-status-card">
                 <div class="card-content">
-                    <p class="product-description">
-                        The 1/12 scale action figure from Aniplex+ comes with four different facial expressions. 
-                        His distinctive battle suit is made of real cloth with wire inside to allow for better movement and fixation.
-                    </p>
+                    <div class="product-image">
+                        <img src="https://images.bigbadtoystore.com/images/p/full/2021/11/1e3f2f5a-a9f8-417e-b405-90ff6e62f134.jpg" alt="Akaza - Demon Slayer [BUZZmod.] Action Figure" class="figure-image">
+                    </div>
                     
-                    <div class="product-meta">
-                        <div class="price-section">
-                            <span class="price-label">PRICE</span>
-                            <span class="price">$154.99</span>
+                    <div class="content-right">
+                        <div class="card-header">
+                            <div class="product-title">
+                                <h2>Akaza - Demon Slayer</h2>
+                                <div class="product-badge">buzzMOD</div>
+                            </div>
+                            <div class="status-indicator" id="statusIndicator">
+                                <div class="status-dot" id="statusDot"></div>
+                                <span class="status-text" id="statusText">INITIALIZING</span>
+                            </div>
                         </div>
-                        <a href="https://www.bigbadtoystore.com/Product/VariationDetails/186410" target="_blank" class="btn btn-outline">
-                            <i data-lucide="external-link"></i>
-                            VIEW ON STORE
-                        </a>
+                        
+                        <p class="product-description">
+                            The 1/12 scale action figure from Aniplex+ comes with four different facial expressions. 
+                            His distinctive battle suit is made of real cloth with wire inside to allow for better movement and fixation.
+                        </p>
+                        
+                        <div class="status-details">
+                            <div class="status-item">
+                                <span class="label">PRICE</span>
+                                <span class="value price-value">$154.99</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="label">LAST CHECKED</span>
+                                <span class="value" id="lastChecked">Never</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="label">NEXT CHECK</span>
+                                <span class="value" id="nextCheck">Calculating...</span>
+                            </div>
+                            <div class="status-item store-button">
+                                <a href="https://www.bigbadtoystore.com/Product/VariationDetails/186410" target="_blank" class="btn btn-outline">
+                                    <i data-lucide="external-link"></i>
+                                    VIEW ON STORE
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary check-status-btn full-width" id="checkStatusBtn">
+                            <i data-lucide="refresh-cw"></i>
+                            <span>CHECK NOW</span>
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Status Card -->
-            <div class="card status-card">
+            <!-- Notifications & System Info Card -->
+            <div class="card notifications-system-card">
                 <div class="card-header">
-                    <h3>STOCK STATUS</h3>
-                    <div class="status-indicator" id="statusIndicator">
-                        <div class="status-dot" id="statusDot"></div>
-                        <span class="status-text" id="statusText">INITIALIZING</span>
-                    </div>
-                </div>
-                
-                <div class="card-content">
-                    <div class="status-details">
-                        <div class="status-item">
-                            <span class="label">LAST CHECKED</span>
-                            <span class="value" id="lastChecked">Never</span>
-                        </div>
-                        <div class="status-item">
-                            <span class="label">NEXT CHECK</span>
-                            <span class="value" id="nextCheck">Calculating...</span>
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-primary check-status-btn" id="checkStatusBtn">
-                        <i data-lucide="refresh-cw"></i>
-                        <span>CHECK NOW</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Notification Card -->
-            <div class="card notification-card">
-                <div class="card-header">
-                    <h3>NOTIFICATIONS</h3>
+                    <h3>NOTIFICATIONS & SYSTEM</h3>
                     <div class="notification-status" id="notificationStatus">
                         <i data-lucide="bell"></i>
                     </div>
                 </div>
                 
                 <div class="card-content">
-                    <p class="notification-description">
-                        Get instant alerts when the Akaza figure comes back in stock
-                    </p>
-                    
-                    <div class="input-group">
-                        <div class="input-wrapper">
-                            <i data-lucide="mail"></i>
-                            <input type="email" id="emailInput" placeholder="your.email@example.com" class="input">
+                    <div class="notifications-section">
+                        <p class="notification-description">
+                            Get instant alerts when the Akaza figure comes back in stock
+                        </p>
+                        
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <input type="email" id="emailInput" placeholder="your.email@example.com" class="input">
+                            </div>
+                            <button class="btn btn-secondary" id="subscribeBtn">
+                                <i data-lucide="zap"></i>
+                                <span>SUBSCRIBE</span>
+                            </button>
                         </div>
-                        <button class="btn btn-secondary" id="subscribeBtn">
-                            <i data-lucide="zap"></i>
-                            <span>SUBSCRIBE</span>
-                        </button>
+                        
+                        <div class="subscription-status" id="subscriptionStatus"></div>
                     </div>
                     
-                    <div class="subscription-status" id="subscriptionStatus"></div>
-                </div>
-            </div>
-
-            <!-- Info Card -->
-            <div class="card info-card">
-                <div class="card-header">
-                    <h3>SYSTEM INFO</h3>
-                </div>
-                
-                <div class="card-content">
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <i data-lucide="clock"></i>
-                            <div>
-                                <span class="info-label">CHECK INTERVAL</span>
-                                <span class="info-value">Every Hour</span>
+                    <div class="system-section">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <i data-lucide="clock"></i>
+                                <div>
+                                    <span class="info-label">CHECK INTERVAL</span>
+                                    <span class="info-value">Every Hour</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="info-item">
-                            <i data-lucide="shield-check"></i>
-                            <div>
-                                <span class="info-label">MONITORING</span>
-                                <span class="info-value">24/7 Active</span>
+                            <div class="info-item">
+                                <i data-lucide="shield-check"></i>
+                                <div>
+                                    <span class="info-label">MONITORING</span>
+                                    <span class="info-value">24/7 Active</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="info-item">
-                            <i data-lucide="zap"></i>
-                            <div>
-                                <span class="info-label">NOTIFICATIONS</span>
-                                <span class="info-value">Instant</span>
+                            <div class="info-item">
+                                <i data-lucide="zap"></i>
+                                <div>
+                                    <span class="info-label">NOTIFICATIONS</span>
+                                    <span class="info-value">Instant</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="info-item">
-                            <i data-lucide="expand"></i>
-                            <div>
-                                <span class="info-label">EXPANDABLE</span>
-                                <span class="info-value">Multi-Product</span>
+                            <div class="info-item">
+                                <i data-lucide="expand"></i>
+                                <div>
+                                    <span class="info-label">EXPANDABLE</span>
+                                    <span class="info-value">Multi-Product</span>
+                                </div>
                             </div>
                         </div>
                     </div>

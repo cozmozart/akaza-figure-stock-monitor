@@ -31,8 +31,6 @@ const elements = {
     subscribeBtn: document.getElementById('subscribeBtn'),
     subscriptionStatus: document.getElementById('subscriptionStatus'),
     checkStatusBtn: document.getElementById('checkStatusBtn'),
-    globalStatusDot: document.getElementById('globalStatusDot'),
-    globalStatusText: document.getElementById('globalStatusText'),
     notificationStatus: document.getElementById('notificationStatus')
 };
 
@@ -216,18 +214,14 @@ async function simulateStockCheck() {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // For demo purposes, randomly return in-stock status
+    // For demo purposes, always return out of stock since we know the item is unavailable
     // In production, this would parse the actual BigBadToyStore page
-    return Math.random() > 0.8; // 20% chance of being in stock for demo
+    return false; // Always out of stock for demo
 }
 
 function updateStatus(status, text) {
     elements.statusDot.className = `status-dot ${status}`;
     elements.statusText.textContent = text;
-    
-    // Update global status
-    elements.globalStatusDot.className = `status-dot ${status}`;
-    elements.globalStatusText.textContent = text;
     
     // Add animation class
     elements.statusDot.style.animation = 'none';
@@ -237,9 +231,8 @@ function updateStatus(status, text) {
 
 function updateLastChecked() {
     const now = new Date();
-    const timeString = now.toLocaleTimeString();
-    const dateString = now.toLocaleDateString();
-    elements.lastChecked.textContent = `${dateString} at ${timeString}`;
+    const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    elements.lastChecked.textContent = timeString;
 }
 
 function startNextCheckTimer() {

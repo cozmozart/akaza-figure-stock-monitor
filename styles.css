@@ -163,7 +163,7 @@ body {
   margin: 0 auto;
   padding: 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: 1fr;
   gap: 2rem;
 }
 
@@ -203,6 +203,111 @@ body {
   padding: 1.5rem;
 }
 
+/* Notifications & System Card Specific Styles */
+.notifications-system-card .card-content {
+  display: block;
+  min-height: auto;
+}
+
+.notifications-section {
+  margin-bottom: 2rem;
+}
+
+.notification-description {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.input-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--neon-green);
+  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
+}
+
+.subscription-status {
+  font-size: 0.85rem;
+  padding: 0.5rem 0;
+}
+
+.system-section {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 0 0 0;
+  margin-top: 1.5rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--input-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.info-item:hover {
+  border-color: var(--neon-green);
+  transform: translateY(-1px);
+}
+
+.info-item i {
+  width: 20px;
+  height: 20px;
+  color: var(--neon-green);
+  flex-shrink: 0;
+}
+
+.info-item div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
 /* Product Card */
 .product-title {
   display: flex;
@@ -228,10 +333,53 @@ body {
   letter-spacing: 0.05em;
 }
 
+.card-content {
+  display: flex;
+  gap: 1.5rem;
+  min-height: 400px;
+}
+
+.product-image {
+  flex-shrink: 0;
+}
+
+.figure-image {
+  width: 300px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 2px solid var(--border);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.content-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.content-right .card-header {
+  padding: 0;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.figure-image:hover {
+  border-color: var(--neon-green);
+  box-shadow: 0 6px 20px rgba(0, 255, 136, 0.2);
+  transform: translateY(-2px);
+}
+
 .product-description {
   color: var(--muted-foreground);
   margin: 1rem 0;
   line-height: 1.6;
+  overflow: hidden; /* Clearfix for floated image */
 }
 
 .product-meta {
@@ -241,28 +389,8 @@ body {
   gap: 1rem;
 }
 
-.price-section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
 
-.price-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--muted-foreground);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
 
-.price {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--neon-green);
-  text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
-}
-
-/* Status Card */
 .status-indicator {
   display: flex;
   align-items: center;
@@ -279,9 +407,10 @@ body {
 
 .status-details {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr auto;
   gap: 1rem;
-  margin: 1rem 0;
+  margin: 1.5rem 0;
+  align-items: end;
 }
 
 .status-item {
@@ -290,17 +419,29 @@ body {
   gap: 0.25rem;
 }
 
+.status-item.store-button {
+  display: flex;
+  align-items: end;
+  justify-content: flex-end;
+}
+
 .label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
+  font-size: 1rem;
   color: var(--muted-foreground);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .value {
-  font-size: 0.875rem;
+  font-size: 1.25rem;
   font-weight: 500;
+}
+
+.price-value {
+  color: var(--neon-green);
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
 }
 
 /* Buttons */
@@ -318,6 +459,8 @@ body {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  height: 44px;
+  box-sizing: border-box;
 }
 
 .btn::before {
@@ -377,11 +520,17 @@ body {
   box-shadow: none !important;
 }
 
+.btn.full-width {
+  width: 100%;
+  justify-content: center;
+}
+
 /* Input */
 .input-group {
   display: flex;
   gap: 0.75rem;
   margin: 1rem 0;
+  align-items: center;
 }
 
 .input-wrapper {
@@ -389,25 +538,17 @@ body {
   flex: 1;
 }
 
-.input-wrapper i {
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--muted-foreground);
-  width: 16px;
-  height: 16px;
-}
-
 .input {
   width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  padding: 0.75rem 1rem;
   background: var(--input);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--foreground);
   font-size: 0.875rem;
   transition: all 0.3s ease;
+  height: 44px;
+  box-sizing: border-box;
 }
 
 .input:focus {
@@ -454,6 +595,12 @@ body {
     transform: translateY(0);
   }
 }
+
+/* Notifications & System Sections */
+.notifications-section {
+  margin-bottom: 2rem;
+}
+
 
 /* Info Grid */
 .info-grid {
@@ -544,12 +691,44 @@ body {
     gap: 1rem;
   }
   
+  .card-content {
+    flex-direction: column;
+    min-height: auto;
+  }
+  
+  .product-image {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .figure-image {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  .content-right .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
   .input-group {
     flex-direction: column;
   }
   
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
   .status-details {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .status-item.store-button {
+    align-items: center;
+    justify-content: center;
   }
   
   .info-grid {

@@ -20,7 +20,9 @@
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
-    "nodemailer": "^6.9.7"
+    "nodemailer": "^6.9.7",
+    "ws": "^8.14.2",
+    "chokidar": "^3.5.3"
   },
   "engines": {
     "node": ">=14.0.0"
