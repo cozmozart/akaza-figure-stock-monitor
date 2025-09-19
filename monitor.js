@@ -120,6 +120,10 @@ async function checkProductStock(product) {
 function parseStockStatus(html, product) {
     const timestamp = new Date().toISOString();
     
+    // Extract product information
+    const productTitle = extractProductTitle(html);
+    const productDescription = extractProductDescription(html);
+    
     // BigBadToyStore specific parsing
     // These selectors may need to be updated based on the actual page structure
     const inStockIndicators = [
@@ -148,7 +152,9 @@ function parseStockStatus(html, product) {
                 status: 'out-of-stock',
                 message: 'Out of Stock',
                 timestamp,
-                price: extractPrice(html) || product.price
+                price: extractPrice(html) || product.price,
+                title: productTitle || product.name,
+                description: productDescription || 'Product description not available'
             };
         }
     }
@@ -161,7 +167,9 @@ function parseStockStatus(html, product) {
                 status: 'in-stock',
                 message: 'In Stock',
                 timestamp,
-                price: extractPrice(html) || product.price
+                price: extractPrice(html) || product.price,
+                title: productTitle || product.name,
+                description: productDescription || 'Product description not available'
             };
         }
     }
@@ -172,7 +180,9 @@ function parseStockStatus(html, product) {
         status: 'unknown',
         message: 'Status Unknown',
         timestamp,
-        price: product.price
+        price: product.price,
+        title: productTitle || product.name,
+        description: productDescription || 'Product description not available'
     };
 }
 
@@ -181,6 +191,76 @@ function extractPrice(html) {
     const priceRegex = /\$[\d,]+\.?\d*/g;
     const matches = html.match(priceRegex);
     return matches ? matches[0] : null;
+}
+
+// Extract product title from HTML
+function extractProductTitle(html) {
+    try {
+        // Try multiple selectors for product title
+        const titleSelectors = [
+            /<h1[^>]*class="[^"]*product-title[^"]*"[^>]*>([^<]+)<\/h1>/i,
+            /<h1[^>]*>([^<]+)<\/h1>/i,
+            /<title[^>]*>([^<]+)<\/title>/i,
+            /<meta[^>]*property="og:title"[^>]*content="([^"]+)"/i
+        ];
+        
+        for (const selector of titleSelectors) {
+            const match = html.match(selector);
+            if (match && match[1]) {
+                let title = match[1].trim();
+                // Clean up the title
+                title = title.replace(/&amp;/g, '&')
+                           .replace(/&lt;/g, '<')
+                           .replace(/&gt;/g, '>')
+                           .replace(/&quot;/g, '"')
+                           .replace(/&#39;/g, "'");
+                return title;
+            }
+        }
+    } catch (error) {
+        console.warn('Error extracting product title:', error.message);
+    }
+    return null;
+}
+
+// Extract product description from HTML
+function extractProductDescription(html) {
+    try {
+        // Try multiple selectors for product description
+        const descriptionSelectors = [
+            /<div[^>]*class="[^"]*product-description[^"]*"[^>]*>([\s\S]*?)<\/div>/i,
+            /<div[^>]*class="[^"]*description[^"]*"[^>]*>([\s\S]*?)<\/div>/i,
+            /<p[^>]*class="[^"]*product-description[^"]*"[^>]*>([\s\S]*?)<\/p>/i,
+            /<meta[^>]*name="description"[^>]*content="([^"]+)"/i,
+            /<meta[^>]*property="og:description"[^>]*content="([^"]+)"/i
+        ];
+        
+        for (const selector of descriptionSelectors) {
+            const match = html.match(selector);
+            if (match && match[1]) {
+                let description = match[1].trim();
+                // Clean up HTML tags and entities
+                description = description.replace(/<[^>]*>/g, ' ')
+                                       .replace(/&amp;/g, '&')
+                                       .replace(/&lt;/g, '<')
+                                       .replace(/&gt;/g, '>')
+                                       .replace(/&quot;/g, '"')
+                                       .replace(/&#39;/g, "'")
+                                       .replace(/\s+/g, ' ')
+                                       .trim();
+                
+                // Limit description length
+                if (description.length > 200) {
+                    description = description.substring(0, 200) + '...';
+                }
+                
+                return description;
+            }
+        }
+    } catch (error) {
+        console.warn('Error extracting product description:', error.message);
+    }
+    return null;
 }
 
 // Get previous status from file

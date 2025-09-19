@@ -100,6 +100,48 @@ body {
   align-items: center;
 }
 
+.header-content .check-status-btn {
+  width: auto;
+  min-width: fit-content;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  height: auto;
+  background: transparent;
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-content .check-status-btn:hover {
+  background: var(--neon-green);
+  color: var(--primary-foreground);
+}
+
+.header-content .check-status-btn i {
+  width: 16px;
+  height: 16px;
+}
+
+.header-content .check-status-btn.loading * {
+  animation: rotate 1s linear infinite !important;
+}
+
+.header-content .check-status-btn.loading {
+  animation: none;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 .logo {
   display: flex;
   align-items: center;
@@ -403,6 +445,7 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 .status-details {
@@ -482,6 +525,59 @@ body {
   background: var(--primary);
   color: var(--primary-foreground);
   border: 1px solid var(--primary);
+}
+
+/* Animated Gradient Background for Check Now Button */
+.check-status-btn {
+  background: linear-gradient(45deg, var(--primary), var(--neon-green), var(--primary));
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.check-status-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.check-status-btn:hover::before {
+  left: 100%;
+}
+
+.check-status-btn:active {
+  animation: gradientPulse 0.3s ease;
+  transform: scale(0.98);
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gradientPulse {
+  0% {
+    background-size: 200% 200%;
+  }
+  50% {
+    background-size: 300% 300%;
+  }
+  100% {
+    background-size: 200% 200%;
+  }
 }
 
 .btn-primary:hover {
@@ -683,6 +779,12 @@ body {
   
   .header-content {
     padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .header-content .check-status-btn {
+    width: 100%;
   }
   
   .product-meta {
@@ -702,7 +804,7 @@ body {
   }
   
   .figure-image {
-    width: 200px;
+    width: 100%;
     height: auto;
     object-fit: contain;
   }
@@ -727,7 +829,12 @@ body {
   }
   
   .status-item.store-button {
+    justify-content: stretch;
     align-items: center;
+  }
+  
+  .status-item.store-button .btn {
+    width: 100%;
     justify-content: center;
   }
   

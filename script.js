@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     startMonitoring();
     initializeLucide();
     startNextCheckTimer();
+    loadInitialProductInfo();
 });
 
 function initializeApp() {
@@ -148,6 +149,9 @@ async function checkStockStatus() {
         if (stockData.success && stockData.status) {
             const productStatus = stockData.status['akaza-buzzmod'];
             
+            // Update product information with scraped data
+            updateProductInfo(productStatus);
+            
             if (productStatus.inStock) {
                 updateStatus('in-stock', 'IN STOCK! 🎉');
                 if (CONFIG.notificationEmail) {
@@ -172,7 +176,7 @@ async function handleManualCheck() {
     // Disable button during check
     elements.checkStatusBtn.disabled = true;
     elements.checkStatusBtn.classList.add('loading');
-    elements.checkStatusBtn.innerHTML = '<i data-lucide="refresh-cw"></i><span>CHECKING...</span>';
+    elements.checkStatusBtn.innerHTML = '<i data-lucide="refresh-cw"></i>';
     
     // Re-initialize icons
     if (typeof lucide !== 'undefined') {
@@ -183,11 +187,16 @@ async function handleManualCheck() {
         await checkStockStatus();
         
         // Show success feedback
-        elements.checkStatusBtn.innerHTML = '<i data-lucide="check"></i><span>CHECKED!</span>';
+        elements.checkStatusBtn.innerHTML = '<i data-lucide="check"></i>';
         elements.checkStatusBtn.classList.remove('loading');
         
+        // Re-initialize icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+        
         setTimeout(() => {
-            elements.checkStatusBtn.innerHTML = '<i data-lucide="refresh-cw"></i><span>CHECK NOW</span>';
+            elements.checkStatusBtn.innerHTML = '<i data-lucide="refresh-cw"></i>';
             elements.checkStatusBtn.disabled = false;
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
@@ -196,11 +205,11 @@ async function handleManualCheck() {
         
     } catch (error) {
         console.error('Manual check failed:', error);
-        elements.checkStatusBtn.innerHTML = '<i data-lucide="x"></i><span>ERROR</span>';
+        elements.checkStatusBtn.innerHTML = '<i data-lucide="x"></i>';
         elements.checkStatusBtn.classList.remove('loading');
         
         setTimeout(() => {
-            elements.checkStatusBtn.innerHTML = '<i data-lucide="refresh-cw"></i><span>CHECK NOW</span>';
+            elements.checkStatusBtn.innerHTML = '<i data-lucide="refresh-cw"></i>';
             elements.checkStatusBtn.disabled = false;
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
@@ -227,6 +236,74 @@ function updateStatus(status, text) {
     elements.statusDot.style.animation = 'none';
     elements.statusDot.offsetHeight; // Trigger reflow
     elements.statusDot.style.animation = null;
+}
+
+function updateProductInfo(stockData) {
+    // Update product title if available
+    if (stockData.title) {
+        const titleElement = document.querySelector('.product-title h2');
+        if (titleElement) {
+            titleElement.textContent = stockData.title;
+        }
+    }
+    
+    // Update product description if available
+    if (stockData.description) {
+        const descriptionElement = document.querySelector('.product-description');
+        if (descriptionElement) {
+            descriptionElement.textContent = stockData.description;
+        }
+    }
+    
+    // Update price if available
+    if (stockData.price) {
+        const priceElement = document.querySelector('.price-value');
+        if (priceElement) {
+            priceElement.textContent = stockData.price;
+        }
+    }
+}
+
+async function loadInitialProductInfo() {
+    try {
+        console.log('Loading initial product information...');
+        
+        // Try to get current status from the server
+        const response = await fetch('/api/check-status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            const stockData = await response.json();
+            console.log('Initial product data loaded:', stockData);
+            
+            if (stockData.success && stockData.status) {
+                const productStatus = stockData.status['akaza-buzzmod'];
+                updateProductInfo(productStatus);
+                updateStatus(productStatus.status, productStatus.message);
+                updateLastChecked();
+            }
+        } else {
+            console.log('API not available, using fallback data');
+            // Fallback to static data if API is not available
+            updateProductInfo({
+                title: 'Akaza - Demon Slayer: Kimetsu no Yaiba [BUZZmod.]',
+                description: 'The 1/12 scale action figure from Aniplex+ comes with four different facial expressions. His distinctive battle suit is made of real cloth with wire inside to allow for better movement and fixation.',
+                price: '$154.99'
+            });
+        }
+    } catch (error) {
+        console.error('Error loading initial product info:', error);
+        // Fallback to static data
+        updateProductInfo({
+            title: 'Akaza - Demon Slayer: Kimetsu no Yaiba [BUZZmod.]',
+            description: 'The 1/12 scale action figure from Aniplex+ comes with four different facial expressions. His distinctive battle suit is made of real cloth with wire inside to allow for better movement and fixation.',
+            price: '$154.99'
+        });
+    }
 }
 
 function updateLastChecked() {
