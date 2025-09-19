@@ -12,7 +12,7 @@ const CONFIG = {
             id: 'akaza-buzzmod',
             name: 'Akaza - Demon Slayer: Kimetsu no Yaiba [BUZZmod.]',
             url: 'https://www.bigbadtoystore.com/Product/VariationDetails/186410',
-            price: '$89.99',
+            price: '$154.99',
             store: 'BigBadToyStore',
             selectors: {
                 // These selectors will need to be updated based on actual BigBadToyStore HTML

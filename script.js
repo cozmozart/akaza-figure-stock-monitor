@@ -6,7 +6,7 @@ const CONFIG = {
             id: 'akaza-buzzmod',
             name: 'Akaza - Demon Slayer: Kimetsu no Yaiba [BUZZmod.]',
             url: 'https://www.bigbadtoystore.com/Product/VariationDetails/186410',
-            price: '$89.99',
+            price: '$154.99',
             store: 'BigBadToyStore'
         }
     ],
@@ -135,7 +135,7 @@ async function checkStockStatus() {
                         status: isInStock ? 'in-stock' : 'out-of-stock',
                         message: isInStock ? 'In Stock' : 'Out of Stock',
                         timestamp: new Date().toISOString(),
-                        price: '$89.99'
+                        price: '$154.99'
                     }
                 }
             };
