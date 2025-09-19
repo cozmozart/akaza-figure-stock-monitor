@@ -26,10 +26,14 @@ const elements = {
     statusDot: document.getElementById('statusDot'),
     statusText: document.getElementById('statusText'),
     lastChecked: document.getElementById('lastChecked'),
+    nextCheck: document.getElementById('nextCheck'),
     emailInput: document.getElementById('emailInput'),
     subscribeBtn: document.getElementById('subscribeBtn'),
     subscriptionStatus: document.getElementById('subscriptionStatus'),
-    checkStatusBtn: document.getElementById('checkStatusBtn')
+    checkStatusBtn: document.getElementById('checkStatusBtn'),
+    globalStatusDot: document.getElementById('globalStatusDot'),
+    globalStatusText: document.getElementById('globalStatusText'),
+    notificationStatus: document.getElementById('notificationStatus')
 };
 
 // Current product being monitored
@@ -40,6 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
     setupEventListeners();
     startMonitoring();
+    initializeLucide();
+    startNextCheckTimer();
 });
 
 function initializeApp() {
@@ -167,24 +173,40 @@ async function checkStockStatus() {
 async function handleManualCheck() {
     // Disable button during check
     elements.checkStatusBtn.disabled = true;
-    elements.checkStatusBtn.textContent = '🔄 Checking...';
+    elements.checkStatusBtn.classList.add('loading');
+    elements.checkStatusBtn.innerHTML = '<i data-lucide="refresh-cw"></i><span>CHECKING...</span>';
+    
+    // Re-initialize icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
     
     try {
         await checkStockStatus();
         
         // Show success feedback
-        elements.checkStatusBtn.textContent = '✅ Checked!';
+        elements.checkStatusBtn.innerHTML = '<i data-lucide="check"></i><span>CHECKED!</span>';
+        elements.checkStatusBtn.classList.remove('loading');
+        
         setTimeout(() => {
-            elements.checkStatusBtn.textContent = '🔍 Check Status Now';
+            elements.checkStatusBtn.innerHTML = '<i data-lucide="refresh-cw"></i><span>CHECK NOW</span>';
             elements.checkStatusBtn.disabled = false;
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
         }, 2000);
         
     } catch (error) {
         console.error('Manual check failed:', error);
-        elements.checkStatusBtn.textContent = '❌ Error';
+        elements.checkStatusBtn.innerHTML = '<i data-lucide="x"></i><span>ERROR</span>';
+        elements.checkStatusBtn.classList.remove('loading');
+        
         setTimeout(() => {
-            elements.checkStatusBtn.textContent = '🔍 Check Status Now';
+            elements.checkStatusBtn.innerHTML = '<i data-lucide="refresh-cw"></i><span>CHECK NOW</span>';
             elements.checkStatusBtn.disabled = false;
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
         }, 2000);
     }
 }
@@ -202,13 +224,48 @@ async function simulateStockCheck() {
 function updateStatus(status, text) {
     elements.statusDot.className = `status-dot ${status}`;
     elements.statusText.textContent = text;
+    
+    // Update global status
+    elements.globalStatusDot.className = `status-dot ${status}`;
+    elements.globalStatusText.textContent = text;
+    
+    // Add animation class
+    elements.statusDot.style.animation = 'none';
+    elements.statusDot.offsetHeight; // Trigger reflow
+    elements.statusDot.style.animation = null;
 }
 
 function updateLastChecked() {
     const now = new Date();
     const timeString = now.toLocaleTimeString();
     const dateString = now.toLocaleDateString();
-    elements.lastChecked.textContent = `Last checked: ${dateString} at ${timeString}`;
+    elements.lastChecked.textContent = `${dateString} at ${timeString}`;
+}
+
+function startNextCheckTimer() {
+    updateNextCheckTime();
+    setInterval(updateNextCheckTime, 1000);
+}
+
+function updateNextCheckTime() {
+    const now = new Date();
+    const nextCheck = new Date(now.getTime() + CONFIG.checkInterval);
+    const timeDiff = nextCheck - now;
+    
+    if (timeDiff > 0) {
+        const minutes = Math.floor(timeDiff / 60000);
+        const seconds = Math.floor((timeDiff % 60000) / 1000);
+        elements.nextCheck.textContent = `${minutes}m ${seconds}s`;
+    } else {
+        elements.nextCheck.textContent = 'Now';
+    }
+}
+
+function initializeLucide() {
+    // Initialize Lucide icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
 }
 
 async function sendNotification(type) {
