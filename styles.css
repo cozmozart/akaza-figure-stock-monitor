@@ -124,7 +124,8 @@ body {
   height: 16px;
 }
 
-.header-content .check-status-btn.loading * {
+.header-content .check-status-btn.loading i,
+.header-content .check-status-btn.loading svg {
   animation: rotate 1s linear infinite !important;
 }
 
