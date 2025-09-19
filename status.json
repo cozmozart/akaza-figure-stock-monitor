@@ -1,9 +1,9 @@
 {
   "akaza-buzzmod": {
     "inStock": false,
-    "status": "out-of-stock",
-    "message": "Out of Stock",
-    "timestamp": "2024-01-01T00:00:00.000Z",
+    "status": "unknown",
+    "message": "Status Unknown",
+    "timestamp": "2025-09-19T17:14:47.247Z",
     "price": "$89.99"
   }
 }

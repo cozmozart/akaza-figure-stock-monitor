@@ -5,8 +5,10 @@
   "main": "monitor.js",
   "scripts": {
     "start": "node monitor.js",
-    "test": "node monitor.js",
-    "dev": "node monitor.js"
+    "test": "node test-monitor.js",
+    "dev": "node monitor.js",
+    "serve": "node server.js",
+    "monitor": "node monitor.js"
   },
   "keywords": [
     "stock-monitor",

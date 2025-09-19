@@ -28,7 +28,8 @@ const elements = {
     lastChecked: document.getElementById('lastChecked'),
     emailInput: document.getElementById('emailInput'),
     subscribeBtn: document.getElementById('subscribeBtn'),
-    subscriptionStatus: document.getElementById('subscriptionStatus')
+    subscriptionStatus: document.getElementById('subscriptionStatus'),
+    checkStatusBtn: document.getElementById('checkStatusBtn')
 };
 
 // Current product being monitored
@@ -61,6 +62,7 @@ function setupEventListeners() {
             handleEmailSubscription();
         }
     });
+    elements.checkStatusBtn.addEventListener('click', handleManualCheck);
 }
 
 function handleEmailSubscription() {
@@ -105,24 +107,85 @@ async function checkStockStatus() {
     try {
         updateStatus('checking', 'Checking stock...');
         
-        // In production, this would call your backend API
-        // For now, we'll simulate the check
-        const isInStock = await simulateStockCheck();
-        
-        if (isInStock) {
-            updateStatus('in-stock', 'IN STOCK! 🎉');
-            if (CONFIG.notificationEmail) {
-                await sendNotification('in-stock');
+        // Try to use the real API first, fallback to simulation
+        let stockData;
+        try {
+            const response = await fetch('/api/check-status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                stockData = await response.json();
+                console.log('Real API response:', stockData);
+            } else {
+                throw new Error('API not available');
             }
-        } else {
-            updateStatus('out-of-stock', 'Out of Stock');
+        } catch (apiError) {
+            console.log('API not available, using simulation:', apiError.message);
+            // Fallback to simulation
+            const isInStock = await simulateStockCheck();
+            stockData = {
+                success: true,
+                status: {
+                    'akaza-buzzmod': {
+                        inStock: isInStock,
+                        status: isInStock ? 'in-stock' : 'out-of-stock',
+                        message: isInStock ? 'In Stock' : 'Out of Stock',
+                        timestamp: new Date().toISOString(),
+                        price: '$89.99'
+                    }
+                }
+            };
         }
         
-        updateLastChecked();
+        if (stockData.success && stockData.status) {
+            const productStatus = stockData.status['akaza-buzzmod'];
+            
+            if (productStatus.inStock) {
+                updateStatus('in-stock', 'IN STOCK! 🎉');
+                if (CONFIG.notificationEmail) {
+                    await sendNotification('in-stock');
+                }
+            } else {
+                updateStatus('out-of-stock', 'Out of Stock');
+            }
+            
+            updateLastChecked();
+        } else {
+            throw new Error('Invalid response from server');
+        }
         
     } catch (error) {
         console.error('Error checking stock:', error);
         updateStatus('error', 'Error checking stock');
+    }
+}
+
+async function handleManualCheck() {
+    // Disable button during check
+    elements.checkStatusBtn.disabled = true;
+    elements.checkStatusBtn.textContent = '🔄 Checking...';
+    
+    try {
+        await checkStockStatus();
+        
+        // Show success feedback
+        elements.checkStatusBtn.textContent = '✅ Checked!';
+        setTimeout(() => {
+            elements.checkStatusBtn.textContent = '🔍 Check Status Now';
+            elements.checkStatusBtn.disabled = false;
+        }, 2000);
+        
+    } catch (error) {
+        console.error('Manual check failed:', error);
+        elements.checkStatusBtn.textContent = '❌ Error';
+        setTimeout(() => {
+            elements.checkStatusBtn.textContent = '🔍 Check Status Now';
+            elements.checkStatusBtn.disabled = false;
+        }, 2000);
     }
 }
 
