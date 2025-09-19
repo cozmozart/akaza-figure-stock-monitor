@@ -1,0 +1,30 @@
+{
+  "name": "akaza-figure-stock-monitor",
+  "version": "1.0.0",
+  "description": "A stock monitoring system for the Akaza Demon Slayer figure from BigBadToyStore",
+  "main": "monitor.js",
+  "scripts": {
+    "start": "node monitor.js",
+    "test": "node monitor.js",
+    "dev": "node monitor.js"
+  },
+  "keywords": [
+    "stock-monitor",
+    "anime-figures",
+    "demon-slayer",
+    "akaza",
+    "bigbadtoystore"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/akaza-figure-stock-monitor.git"
+  }
+}

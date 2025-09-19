@@ -1,0 +1,277 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.monitor-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.product-info h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2d3748;
+}
+
+.product-description {
+    color: #718096;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.product-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #e53e3e;
+}
+
+.store-link {
+    color: #3182ce;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: 2px solid #3182ce;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.store-link:hover {
+    background: #3182ce;
+    color: white;
+}
+
+.status-section {
+    text-align: center;
+    padding: 20px;
+    background: #f7fafc;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.status-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #cbd5e0;
+    animation: pulse 2s infinite;
+}
+
+.status-dot.in-stock {
+    background: #48bb78;
+    animation: none;
+}
+
+.status-dot.out-of-stock {
+    background: #f56565;
+    animation: none;
+}
+
+.status-dot.checking {
+    background: #ed8936;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.status-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.last-checked {
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+.notification-settings {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.notification-settings h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2d3748;
+}
+
+.notification-settings p {
+    color: #718096;
+    margin-bottom: 20px;
+}
+
+.email-input {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.email-input input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.email-input input:focus {
+    outline: none;
+    border-color: #3182ce;
+}
+
+.email-input button {
+    padding: 12px 24px;
+    background: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.email-input button:hover {
+    background: #2c5aa0;
+}
+
+.subscription-status {
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 500;
+    display: none;
+}
+
+.subscription-status.success {
+    background: #c6f6d5;
+    color: #22543d;
+    border: 1px solid #9ae6b4;
+    display: block;
+}
+
+.subscription-status.error {
+    background: #fed7d7;
+    color: #742a2a;
+    border: 1px solid #feb2b2;
+    display: block;
+}
+
+.monitoring-info {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.monitoring-info h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2d3748;
+}
+
+.monitoring-info ul {
+    list-style: none;
+    color: #718096;
+}
+
+.monitoring-info li {
+    padding: 8px 0;
+    position: relative;
+    padding-left: 25px;
+}
+
+.monitoring-info li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #48bb78;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    color: white;
+    opacity: 0.8;
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .product-details {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .email-input {
+        flex-direction: column;
+    }
+}

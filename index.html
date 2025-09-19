@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akaza Figure Stock Monitor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎌 Akaza Figure Stock Monitor</h1>
+            <p>Monitoring BigBadToyStore for the [BUZZmod.] Akaza action figure</p>
+        </header>
+
+        <main>
+            <div class="monitor-card">
+                <div class="product-info">
+                    <h2>Akaza - Demon Slayer: Kimetsu no Yaiba [BUZZmod.]</h2>
+                    <p class="product-description">
+                        The 1/12 scale action figure from Aniplex+ comes with four different facial expressions. 
+                        His distinctive battle suit is made of real cloth with wire inside to allow for better movement and fixation.
+                    </p>
+                    <div class="product-details">
+                        <span class="price">$89.99</span>
+                        <a href="https://www.bigbadtoystore.com/Product/VariationDetails/186410" target="_blank" class="store-link">
+                            View on BigBadToyStore →
+                        </a>
+                    </div>
+                </div>
+
+                <div class="status-section">
+                    <div class="status-indicator" id="statusIndicator">
+                        <div class="status-dot" id="statusDot"></div>
+                        <span class="status-text" id="statusText">Checking...</span>
+                    </div>
+                    <div class="last-checked" id="lastChecked">
+                        Last checked: Never
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification-settings">
+                <h3>📧 Notification Settings</h3>
+                <p>Enter your email to get notified when this item comes back in stock:</p>
+                <div class="email-input">
+                    <input type="email" id="emailInput" placeholder="your.email@example.com">
+                    <button id="subscribeBtn">Subscribe</button>
+                </div>
+                <div class="subscription-status" id="subscriptionStatus"></div>
+            </div>
+
+            <div class="monitoring-info">
+                <h3>🔍 How it works</h3>
+                <ul>
+                    <li>This page automatically checks BigBadToyStore every hour</li>
+                    <li>When the item comes back in stock, you'll receive an email notification</li>
+                    <li>The status updates in real-time on this page</li>
+                    <li>You can add more items to monitor using the same framework</li>
+                </ul>
+            </div>
+        </main>
+
+        <footer>
+            <p>Built with ❤️ for anime figure collectors</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+name: Stock Monitor
+
+on:
+  schedule:
+    # Run every hour at minute 0
+    - cron: '0 * * * *'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Run stock monitor
+      env:
+        EMAIL_USER: ${{ secrets.EMAIL_USER }}
+        EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+        NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
+      run: npm start
+      
+    - name: Commit status updates
+      if: always()
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # Check if there are any changes to commit
+        if [ -n "$(git status --porcelain)" ]; then
+          git add status.json
+          git commit -m "Update stock status - $(date)"
+          git push
+        fi
